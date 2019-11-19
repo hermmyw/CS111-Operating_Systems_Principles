@@ -1,0 +1,244 @@
+Midterm
+
+
+1. 
+
+2. ago contains four, other files are empty
+
+3. Suppose the x86−based kernel
+Xunil is like the Linux kernel but reverses the
+usual pattern for system calls: in Xunil, an
+application issues a system call by executing an
+RETI (RETurn from Interrupt) instruction rather
+than by executing an INT (INTerrupt) instruction.
+Other than this difference in instruction choice,
+Xunil is supposed to act like Linux.
+Is the Xunil idea completely crazy, or is it a
+valid (albeit unusual) operating system
+interface?  Briefly explain.
+
+as long as we can still track from user mode to kernel code,
+RETI is still a valid interface.
+
+
+4a.
+(head −n 20 2>a <b | sort 2>>c | tail) >d
+./simpsh \
+--creat --wronly a \
+--rdonly b \
+--append --creat --wronly c \
+--creat --wronly d \
+--pipe \
+--pipe \
+--command 1 5 0 head -n \
+--command 6 9 2 sort \
+--command 8 5 5 tail \
+--close 5 \
+--close 7 \
+--wait
+
+
+
+cat <d | cat >>d
+./simpsh \
+--rdonly d \
+--creat --append --wronly d \
+--pipe \
+--command 0 3 3 cat \
+--command 2 1 1 cat \
+--close 3 \
+--wait
+
+
+#open d three times
+#fd table contains offset for d
+#each command (), cat, cat has a different offset for d
+() start->end
+cat start->end
+cat append->end
+
+--creat --wronly a \
+--rdonly b \
+--append --wronly c \
+--creat --wronly d \
+--rdonly \
+--creat --wronly d \
+--pipe \
+--pipe \
+--command 1 7 0 head -n \
+--command 6 9 2 sort \
+--command 8 5 5 tail \
+
+--creat --wronly d \
+--pipe \
+--append --wronly d \
+--command 10 12 12 cat
+--command 11 13 13 cat 
+--close 7
+--close 9
+--close 12
+--wait
+
+
+first wait: before cat<d
+second wait: optional after cat 
+
+
+4b
+
+
+4c
+It could loop forever, cat is writing and reading at the same time. Each process is waiting from each other.
+
+
+4d
+upward-compatible: accept old versions of itself
+
+4e
+./simpsh --rdonly io --wronly /dev/stdout --command 0 1 0 bash "sleep 1 \ echo Fooled ya"
+./simpsh
+
+
+5a
+Compare RR to T2R scheduling
+with respect to utilization and average wait
+time; give an example.
+abababab
+ab
+aab
+aaab
+aaaab...
+waititme: 2
+
+wait will be called definitely. Starvation is not possible.
+
+
+
+6. 
+#include <signal.h>
+#include <stdio.h>
+#include <unistd.h>
+static unsigned char n;
+void handle_sig(int sig) {
+	printf("Got signal! n=%d\n", n++);
+}
+int main() {
+	signal (SIGINT, handle_sig);
+	do {
+		printf("looping n=%d\n", n++);
+		signal (SIGINT, handle_sig);
+	}while (n!=0);
+	return 0;
+}
+
+
+data stores global variables with initialized value
+bss stores ... without
+n is 0
+race condition
+6a:
+a signal comes in when n=255 and incremented to 0, and n becomes 1 in the signal handler. 
+
+6b:
+a signal comes in between two print statements
+
+6c:
+a signal comes in at the printf function. The behavior is undefined.
+
+6d:
+signal in the printf function: dump core
+printf function is not thread safe
+
+
+
+6e:
+line 14
+line 12
+removing line 9: if a signal comes in before do-while loop, it will not be handled.
+
+void wait_for_ready() {
+	while ((inb(0x1f7) & 0xC0) != 0x40)
+	continue;
+}
+void read_sector(int s, char* a) {
+	wait_for_ready();
+	outb(0x1f2, 1);
+	outb(0x1f3, s & 0xff);
+	outb(0x1f4, (s>>8) & 0xff);
+	outb(0x1f5, (s>>16) & 0xff);
+	outb(0x1f6, (s>>24) & 0xff);
+	outb(0x1f7, 0x20);
+	wait_for_ready();
+	insl(0x1f0, a, 128);
+}
+
+7a read trash data left 
+7b nothing changes. only sig byte
+7c nothing changes. 
+7d wrong data
+7e increase runnning time. 
+
+8
+return fork() < fork()
+create four processes. 
+
+sequence: exit(), exit(), exit(), exit()
+1. fork() - child, child
+2. fork() - child, child
+
+
+
+
+
+
+
+
+Midterm 2
+1. We can do it as long as we define a way to track from user mode to kernal mode, such as defining /0, page fault...
+dividing zero: track user mode to kernal mode, store system call number a register --> are we really dividing by zero or signaling something else?
+
+2. cat <mouse | cat | cat>dog
+nothing to second cat
+create dog
+
+3. 
+pros: save time for context switching
+cons: we need protect changes to it
+
+4a
+multiple writing to .. result does not interwine
+4b
+smaller than 4k
+damaged behavior
+other process starvation
+4c
+No. just create a pipe, child processes care about it. no bash
+
+5.
+pros: no signal handler.
+cons: what if child processes ignores pipe? no way to control it
+
+6. 
+cause starvation
+faster scheduling
+problems: real time system makes sense.  shorter job time immediately schedule
+or no: causes starvation, preemptive to avpoid. Still starvation.
+
+
+
+7. 
+
+yes, it could cause starvation if mutex randomly selects the next to get the resource, you dont know if the 
+if a reader is holding a deadlock
+
+no. fifo-> no starvation
+
+8.
+(4) trash data
+(10) segfault
+(11) wait on yourself
+(12) wait on unexisited process
+(16) wait on zombie process
+(19) 
+
+

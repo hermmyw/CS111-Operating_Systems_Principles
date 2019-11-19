@@ -1,0 +1,72 @@
+1. RAID
+	a. false
+	b. false 
+	c. true
+	d. false
+	e. false
+
+2. Security
+	a. true, list all the prime numbers
+	b. not world-readable
+	c. wrong
+	d. shared-secret: > public-key
+	   public-key: overhead, exchange private key
+	e. principals are not integers 
+
+
+3. NFS
+
+4. 
+	a. correct. cache affinity does not depend on schedulers
+		-> matrix multiplication friendly to caching
+
+	b. wrong reason: hardware does not matter (system call->hardware)
+		hardware is not always agnostic
+	e. remove dirty page: write to disk (costly)
+	-> remove clean page
+
+
+5. 
+	a. Log−structured filesystems (journal)
+	c. low possibility that they corrupt in the same way
+	e. correct
+
+6. 
+	e. symlinks cross device boundary. wrong reason of flexibility
+
+7. 
+
+
+8. 
+	a. coorect 
+	a. two files pointing to one file, but that file's linkcount = 1: one is symbolic link
+
+
+9. 
+	e. correct
+	no ownership for a locl
+
+10. 
+	multiple condition variables: not synchronization
+
+
+
+11.
+bus is not secure. if some programs are using local sockets, 
+you can have easier method such as a pipe
+
+12.
+clri 2: clear inode
+
+
+13. (from lab 2)
+
+15. 
+
+
+marshall+switch order
+
+
+17.
+xchgl exchange bit
+

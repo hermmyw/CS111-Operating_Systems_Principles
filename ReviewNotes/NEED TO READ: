@@ -1,0 +1,19 @@
+NEED TO READ:
+
+Reading
+software interface standards
+interprocess communication
+user mode threads
+real-time scheduling
+
+
+
+NEED TO ORGANIZE:
+man pages for:
+	pthread_create
+	sigaction
+	read
+	write
+	lseek
+	waitpid
+

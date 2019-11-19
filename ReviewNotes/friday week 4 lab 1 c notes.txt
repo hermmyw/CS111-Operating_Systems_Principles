@@ -1,0 +1,30 @@
+./simpsh --rdonly input --wronly output --command 0 1 1 cat 
+
+* simpsh : Parent
+	\_ fork()
+		\_ execve()
+		* cat : child process'
+
+who can take 3 values:
+1. RUSAGE_SELF:
+	- Gets the resource utilization for the parent: simpsh.
+2. RUSAGE_CHILD:
+	- Get the resource for all children/grandchildren/and so on.
+3. RUSAGE_THREAD:
+	- For the calling thread.
+
+What we need:
+- RUSAGE_SELF + RUSAGE_CHILD => 2 calls.
+
+Lets say
+simpsh invokes bash
+	bash invokes cat and exits
+		cat terminates (becomes zombie process)
+cat's usage will not be included. 
+
+
+Example for times:
+ bash -c " ./example_getrusage | cat ; times;"
+
+Reading for midterm Q7:
+https://web.cs.ucla.edu/classes/winter16/cs111/scribe/2d/index.html
