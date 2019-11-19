@@ -1,0 +1,282 @@
+Total: 941 samples
+     851  90.4%  90.4%      851  90.4% lock
+      55   5.8%  96.3%       55   5.8% __strcmp_sse42
+      20   2.1%  98.4%       53   5.6% SortedList_insert
+      13   1.4%  99.8%       37   3.9% SortedList_lookup
+       2   0.2% 100.0%        2   0.2% _init
+       0   0.0% 100.0%      941 100.0% __clone
+       0   0.0% 100.0%      360  38.3% list_delete
+       0   0.0% 100.0%      581  61.7% list_insert
+       0   0.0% 100.0%      941 100.0% start_thread
+       0   0.0% 100.0%      941 100.0% thread_list
+       0   0.0% 100.0%      941 100.0% thread_list_helper
+ROUTINE ====================== thread_list in /u/cs/ugrad/huimin/cs111/lab2b/lab2_list.c
+     0    941 Total samples (flat / cumulative)
+     .      .  208:     // } 
+     .      .  209: 
+     .      .  210: 
+     .      .  211: }
+     .      .  212: 
+---
+     .      .  213: void* thread_list(int* t_ID) {
+     .      .  214: 
+     .      .  215:     int t = *t_ID;
+     .    941  216:     thread_list_helper(t);
+     .      .  217:     pthread_exit(NULL);
+---
+     .      .  218: 
+     .      .  219: }
+     .      .  220: 
+     .      .  221: 
+     .      .  222: 
+ROUTINE ====================== thread_list_helper in /u/cs/ugrad/huimin/cs111/lab2b/lab2_list.c
+     0    941 Total samples (flat / cumulative)
+     .      .  151:         unlock(list_ind);
+     .      .  152:     }
+     .      .  153:     //unlock(0);
+     .      .  154: }
+     .      .  155: 
+---
+     .      .  156: void thread_list_helper(int t) {
+     .      .  157:     // switch(sync_opt) {
+     .      .  158:     //     case 'm': {
+     .      .  159:     //         if (clock_gettime(CLOCK_MONOTONIC, &tp_start_lock) < 0) {
+     .      .  160:     //             fprintf(stderr, "clock_gettime() error: %s\n", strerror(errno));
+     .      .  161:     //             exit(1);
+     .      .  162:     //         }
+     .      .  163:     //         //if (pthread_mutex_lock(&mutex[l_ID]) != 0) {
+     .      .  164:     //         if (pthread_mutex_lock(&m_lock) != 0) {
+     .      .  165:     //             fprintf(stderr, "pthread_mutex_lock(): %s\n", strerror(errno));
+     .      .  166:     //             exit(1);
+     .      .  167:     //         }
+     .      .  168:     //         /* get ending time */
+     .      .  169:     //         if (clock_gettime(CLOCK_MONOTONIC, &tp_end_lock) < 0) {
+     .      .  170:     //             fprintf(stderr, "clock_gettime() error: %s\n", strerror(errno));
+     .      .  171:     //             exit(1);
+     .      .  172:     //         }
+     .      .  173:     //         wait_time += (tp_end_lock.tv_sec - tp_start_lock.tv_sec) * 1000000000;
+     .      .  174:     //         wait_time += tp_end_lock.tv_nsec;
+     .      .  175:     //         wait_time -= tp_start_lock.tv_nsec;
+     .      .  176:     //         break;
+     .      .  177:     //     }
+     .      .  178: 
+     .      .  179: 
+     .      .  180: 
+     .      .  181:     //     case 's': {
+     .      .  182:     //         while (__sync_lock_test_and_set(&sl, 1));
+     .      .  183:     //         break;
+     .      .  184:     //     }
+     .      .  185:     // }
+     .      .  186: 
+     .      .  187: 
+     .      .  188: 
+     .    581  189:     list_insert(t);
+     .      .  190:     list_length();
+     .    360  191:     list_delete(t);
+     .      .  192: 
+     .      .  193: 
+     .      .  194: 
+     .      .  195:     // switch(sync_opt) {
+     .      .  196:     //     case 'm': {
+     .      .  197:     //         //if (pthread_mutex_unlock(&mutex[l_ID]) != 0) {
+     .      .  198:     //         if (pthread_mutex_unlock(&m_lock) != 0) {
+     .      .  199:     //             fprintf(stderr, "pthread_mutex_unlock(): %s\n", strerror(errno));
+     .      .  200:     //             exit(1);
+     .      .  201:     //         }            
+     .      .  202:     //         break;
+     .      .  203:     //     }
+     .      .  204:     //     case 's': {
+     .      .  205:     //         __sync_lock_release(&sl);
+     .      .  206:     //         break;
+     .      .  207:     //     }
+     .      .  208:     // } 
+     .      .  209: 
+     .      .  210: 
+     .      .  211: }
+---
+     .      .  212: 
+     .      .  213: void* thread_list(int* t_ID) {
+     .      .  214: 
+     .      .  215:     int t = *t_ID;
+     .      .  216:     thread_list_helper(t);
+ROUTINE ====================== thread_list in /u/cs/ugrad/huimin/cs111/lab2b/lab2_list.c
+     0    941 Total samples (flat / cumulative)
+     .      .  208:     // } 
+     .      .  209: 
+     .      .  210: 
+     .      .  211: }
+     .      .  212: 
+---
+     .      .  213: void* thread_list(int* t_ID) {
+     .      .  214: 
+     .      .  215:     int t = *t_ID;
+     .    941  216:     thread_list_helper(t);
+     .      .  217:     pthread_exit(NULL);
+---
+     .      .  218: 
+     .      .  219: }
+     .      .  220: 
+     .      .  221: 
+     .      .  222: 
+ROUTINE ====================== thread_list_helper in /u/cs/ugrad/huimin/cs111/lab2b/lab2_list.c
+     0    941 Total samples (flat / cumulative)
+     .      .  151:         unlock(list_ind);
+     .      .  152:     }
+     .      .  153:     //unlock(0);
+     .      .  154: }
+     .      .  155: 
+---
+     .      .  156: void thread_list_helper(int t) {
+     .      .  157:     // switch(sync_opt) {
+     .      .  158:     //     case 'm': {
+     .      .  159:     //         if (clock_gettime(CLOCK_MONOTONIC, &tp_start_lock) < 0) {
+     .      .  160:     //             fprintf(stderr, "clock_gettime() error: %s\n", strerror(errno));
+     .      .  161:     //             exit(1);
+     .      .  162:     //         }
+     .      .  163:     //         //if (pthread_mutex_lock(&mutex[l_ID]) != 0) {
+     .      .  164:     //         if (pthread_mutex_lock(&m_lock) != 0) {
+     .      .  165:     //             fprintf(stderr, "pthread_mutex_lock(): %s\n", strerror(errno));
+     .      .  166:     //             exit(1);
+     .      .  167:     //         }
+     .      .  168:     //         /* get ending time */
+     .      .  169:     //         if (clock_gettime(CLOCK_MONOTONIC, &tp_end_lock) < 0) {
+     .      .  170:     //             fprintf(stderr, "clock_gettime() error: %s\n", strerror(errno));
+     .      .  171:     //             exit(1);
+     .      .  172:     //         }
+     .      .  173:     //         wait_time += (tp_end_lock.tv_sec - tp_start_lock.tv_sec) * 1000000000;
+     .      .  174:     //         wait_time += tp_end_lock.tv_nsec;
+     .      .  175:     //         wait_time -= tp_start_lock.tv_nsec;
+     .      .  176:     //         break;
+     .      .  177:     //     }
+     .      .  178: 
+     .      .  179: 
+     .      .  180: 
+     .      .  181:     //     case 's': {
+     .      .  182:     //         while (__sync_lock_test_and_set(&sl, 1));
+     .      .  183:     //         break;
+     .      .  184:     //     }
+     .      .  185:     // }
+     .      .  186: 
+     .      .  187: 
+     .      .  188: 
+     .    581  189:     list_insert(t);
+     .      .  190:     list_length();
+     .    360  191:     list_delete(t);
+     .      .  192: 
+     .      .  193: 
+     .      .  194: 
+     .      .  195:     // switch(sync_opt) {
+     .      .  196:     //     case 'm': {
+     .      .  197:     //         //if (pthread_mutex_unlock(&mutex[l_ID]) != 0) {
+     .      .  198:     //         if (pthread_mutex_unlock(&m_lock) != 0) {
+     .      .  199:     //             fprintf(stderr, "pthread_mutex_unlock(): %s\n", strerror(errno));
+     .      .  200:     //             exit(1);
+     .      .  201:     //         }            
+     .      .  202:     //         break;
+     .      .  203:     //     }
+     .      .  204:     //     case 's': {
+     .      .  205:     //         __sync_lock_release(&sl);
+     .      .  206:     //         break;
+     .      .  207:     //     }
+     .      .  208:     // } 
+     .      .  209: 
+     .      .  210: 
+     .      .  211: }
+---
+     .      .  212: 
+     .      .  213: void* thread_list(int* t_ID) {
+     .      .  214: 
+     .      .  215:     int t = *t_ID;
+     .      .  216:     thread_list_helper(t);
+ROUTINE ====================== lock in /u/cs/ugrad/huimin/cs111/lab2b/lab2_list.c
+   851    851 Total samples (flat / cumulative)
+     .      .   53:     fprintf(stderr, "Caught segmentation fault\n");
+     .      .   54:     exit(2);
+     .      .   55: }
+     .      .   56: 
+     .      .   57: /* locking routine */
+---
+     .      .   58: void lock(int l_ID) {
+     .      .   59:     switch(sync_opt) {
+     .      .   60:         case 'm': {
+     .      .   61:             if (clock_gettime(CLOCK_MONOTONIC, &tp_start_lock) < 0) {
+     .      .   62:                 fprintf(stderr, "clock_gettime() error: %s\n", strerror(errno));
+     .      .   63:                 exit(1);
+     .      .   64:             }
+     .      .   65:             if (pthread_mutex_lock(&mutex[l_ID]) != 0) {
+     .      .   66:             //if (pthread_mutex_lock(&m_lock) != 0) {
+     .      .   67:                 fprintf(stderr, "pthread_mutex_lock(): %s\n", strerror(errno));
+     .      .   68:                 exit(1);
+     .      .   69:             }
+     .      .   70:             /* get ending time */
+     .      .   71:             if (clock_gettime(CLOCK_MONOTONIC, &tp_end_lock) < 0) {
+     .      .   72:                 fprintf(stderr, "clock_gettime() error: %s\n", strerror(errno));
+     .      .   73:                 exit(1);
+     .      .   74:             }
+     .      .   75:             wait_time += (tp_end_lock.tv_sec - tp_start_lock.tv_sec) * 1000000000;
+     .      .   76:             wait_time += tp_end_lock.tv_nsec;
+     .      .   77:             wait_time -= tp_start_lock.tv_nsec;
+     .      .   78:             break;
+     .      .   79:         }
+     .      .   80: 
+     .      .   81: 
+     .      .   82: 
+     .      .   83:         case 's': {
+   851    851   84:             while (__sync_lock_test_and_set(&spin[l_ID], 1));
+     .      .   85:             //while (__sync_lock_test_and_set(&sl, 1));
+     .      .   86:             break;
+     .      .   87:         }
+     .      .   88:     }
+     .      .   89: }
+---
+     .      .   90: 
+     .      .   91: void unlock(int l_ID) {
+     .      .   92:     switch(sync_opt) {
+     .      .   93:         case 'm': {
+     .      .   94:             if (pthread_mutex_unlock(&mutex[l_ID]) != 0) {
+ROUTINE ====================== lock in /u/cs/ugrad/huimin/cs111/lab2b/lab2_list.c
+   851    851 Total samples (flat / cumulative)
+     .      .   53:     fprintf(stderr, "Caught segmentation fault\n");
+     .      .   54:     exit(2);
+     .      .   55: }
+     .      .   56: 
+     .      .   57: /* locking routine */
+---
+     .      .   58: void lock(int l_ID) {
+     .      .   59:     switch(sync_opt) {
+     .      .   60:         case 'm': {
+     .      .   61:             if (clock_gettime(CLOCK_MONOTONIC, &tp_start_lock) < 0) {
+     .      .   62:                 fprintf(stderr, "clock_gettime() error: %s\n", strerror(errno));
+     .      .   63:                 exit(1);
+     .      .   64:             }
+     .      .   65:             if (pthread_mutex_lock(&mutex[l_ID]) != 0) {
+     .      .   66:             //if (pthread_mutex_lock(&m_lock) != 0) {
+     .      .   67:                 fprintf(stderr, "pthread_mutex_lock(): %s\n", strerror(errno));
+     .      .   68:                 exit(1);
+     .      .   69:             }
+     .      .   70:             /* get ending time */
+     .      .   71:             if (clock_gettime(CLOCK_MONOTONIC, &tp_end_lock) < 0) {
+     .      .   72:                 fprintf(stderr, "clock_gettime() error: %s\n", strerror(errno));
+     .      .   73:                 exit(1);
+     .      .   74:             }
+     .      .   75:             wait_time += (tp_end_lock.tv_sec - tp_start_lock.tv_sec) * 1000000000;
+     .      .   76:             wait_time += tp_end_lock.tv_nsec;
+     .      .   77:             wait_time -= tp_start_lock.tv_nsec;
+     .      .   78:             break;
+     .      .   79:         }
+     .      .   80: 
+     .      .   81: 
+     .      .   82: 
+     .      .   83:         case 's': {
+   851    851   84:             while (__sync_lock_test_and_set(&spin[l_ID], 1));
+     .      .   85:             //while (__sync_lock_test_and_set(&sl, 1));
+     .      .   86:             break;
+     .      .   87:         }
+     .      .   88:     }
+     .      .   89: }
+---
+     .      .   90: 
+     .      .   91: void unlock(int l_ID) {
+     .      .   92:     switch(sync_opt) {
+     .      .   93:         case 'm': {
+     .      .   94:             if (pthread_mutex_unlock(&mutex[l_ID]) != 0) {

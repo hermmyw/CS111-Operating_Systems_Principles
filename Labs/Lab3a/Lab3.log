@@ -1,0 +1,103 @@
+Lab3 log
+
+Don't assume block size is 1KB
+    1kb~4kb
+    (if-else statements)
+
+Don't assume there is single block group
+
+
+Superblock
+    Superblock: offset=1024
+
+    Inode starts from 1, block starts from 0
+    Superlock is in block 1, but don't assume it is always block 1, it might be in 
+    block 0
+    Superblock is always 1kb size
+
+    If blocksize == 1024
+        Superblock at block 1
+    else if blocksize > 1024
+        Superblock at block 0 (always at block offset 1024)
+
+
+    Save super.s_magic
+    If pointer == magic number -> check for correctness of reading superblock
+
+
+blocksize is a multiple of inode size
+
+Calculate for last group's inodes count and blocks count
+    sum - inode_per_group * groups
+    sum - block_per_group * groups
+
+#blocks used to store the free block bitmap?
+    s = bits needed for bitmap
+    s/8 = bytes needed
+    s/8/blocksize = how many blocks needed for the bitmap (! integer division)
+    The project probably has a bitmap of 1 block size
+    (s/8+blocksize-1)/blocksize
+    don't assume number of inodes
+
+Inode table
+    traverse inode table
+        check nonzero link count and block count
+
+Directory entries
+
+
+Indirect block references 
+    logical block offset
+        offset for the first block pointer: 0
+        offset for the second block pointer: bsize
+        offset for the nth block pointer: (n-1)*bsize
+
+        if there are more than 12 block pointers:
+            offset for the 13th block pointer: bsize*block_id
+            1. 13~268
+            2. (n-1)*bsize
+            3. log_offset++
+
+            offset for the first pointer in double indirect block: 
+            1. 269~269+65535
+            2. 13+256 ~ 13+256+256*255
+            3. log_offset += 256
+
+            offset for the first pointer in the triple indirect block: 
+            1. 269+65536 ~ 269+65536+16777216
+            2. 13+256+256*256 ~ 13+256+256*256+256*256*255
+            3. log_offset += 256*256
+            
+            ** 256 = bsize/4
+
+
+            direct: 0 ~ block_id
+            single: block_id*bsize+4*0 block_id*bsize+4*1 block_id*bsize+4*2 ~ block_id*bsize+4*255
+            -256^1
+            double: block_id+256+256*0 ~ block_id+256+256*255
+            block_id*bsize+4*256+4*0 block_id*bsize+4*256+4*1 ~ 
+            -256^2
+            offset + 256*i*4
+            triple: block_id+256+256*256+256*0 ~ block_id+256+256*256+256*255
+            offser + 
+            ** 256 = bsize/4
+
+
+
+parent_inode, level, logical offset, block_number, referenced_block
+INDIRECT,16,1,12,34,35
+INDIRECT,16,1,13,34,36
+
+INDIRECT,17,1,14,61,37
+
+INDIRECT,17,2,268,62,38
+INDIRECT,17,1,270,38,45
+
+INDIRECT,17,3,65804,46,39
+INDIRECT,17,2,65804,39,40
+INDIRECT,17,1,65806,40,53
+
+
+ 65536 blocks per doubly-indirect block.
+
+

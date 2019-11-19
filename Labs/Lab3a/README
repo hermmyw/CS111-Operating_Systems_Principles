@@ -1,0 +1,52 @@
+NAME: Hermmy Wang
+UID: 704978214
+EMAIL: hermmyw@hotmail.com
+
+Files included:
+	(1) lab3a.c
+		C source file that produces a summary of the input image file.
+		The summary includes a description of super block, groups, free blocks, free inodes, inodes, indirect blocks, and directories. 
+
+	(2) ext2_fs.h
+		A header file that defines the data structures in the EXT2 file system. 
+
+	(3) Makefile
+		Compile lab3a.c and produce a tarball containing the necessary files.
+
+	(4) README
+
+Log:
+	(1) Superblock
+		If blocksize == 1024
+	        Superblock at block 1
+	    else if blocksize > 1024
+	        Superblock at block 0 (always at block offset 1024)
+
+	    If pointer == magic number -> check for correctness of reading superblock
+
+
+	(2) Inode table
+    	Traverse inode table, check nonzero link count and block count
+
+	(3) Indirect block references
+        if there are more than 12 block pointers:
+        offset for the 13th block pointer: bsize*block_id
+        1. 13~268
+        2. (n-1)*bsize
+        3. log_offset++
+
+        offset for the first pointer in double indirect block: 
+        1. 269~269+65535
+        2. 13+256 ~ 13+256+256*255
+        3. log_offset += 256
+
+        offset for the first pointer in the triple indirect block: 
+        1. 269+65536 ~ 269+65536+16777216
+        2. 13+256+256*256 ~ 13+256+256*256+256*256*255
+        3. log_offset += 256*256
+        
+        ** 256 = bsize/4
+
+Limitations:
+	(1) The program only supports a single group of blocks.
+	(2) Added `#include <sys/types.h>` to ext2_fs.h to avoid compilation error.

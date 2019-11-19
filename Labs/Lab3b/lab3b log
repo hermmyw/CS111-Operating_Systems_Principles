@@ -1,0 +1,177 @@
+trust superblock
+
+inode 1: error message
+inode 2: root
+
+
+Block
+(1) INVALID
+<0 or >totalblocks
+
+(2) RESERVED
+	0 superblock blockbitmap inodebitmap inodes <-- reserved (data block) 
+	we know the first block of inode and total number of inodes
+	inodsize*inode#/blksize = total blocks of inodes
+
+(3) FREED
+	freedlist: bit array
+	allocated: hashmap/array
+
+(4) duplicated
+	produce message for each reference
+	1. each time you see a reference, record it. Next time referenced, output the stored reference and current reference
+	2. in O(m+n)
+
+
+
+Directory 
+root: .. points to itself, only exception (inode = 2)
+
+reading csv:
+	if symlink: blkpointer to store string? or actual blkpointer
+
+	islegalblock():
+		if b<0 || b >totalblock
+			return false
+
+	build two array: freeblckbitmap and freeinodebitmap
+
+def islegalblock(b):
+	if b<0 or b>total_blocks or b<first_legal_blk: #first legal block is the first not reserved blk
+		return false
+	return true
+def isfreeblock(b):
+	if !islegalblock(b):
+		return false
+	return block_free_bitmap[b]   #1 freed, 0 used
+
+def isfreeinode(i):
+	if i>2 and i<reserved inode    #2 is root inode, reserved inode in superblock
+		if i > total inode
+			return false
+	return inode_free_bitmap[i]  #1 freed, 0 used
+
+
+build block_state[], inode_state[], parent[]
+
+	for each block bit (0 ~ total blocks)
+		if !islegalblock
+			block_state[b] = RESERVED
+		else isfreeblock(b)
+			block_state[b] = FREE
+		... duplicate...
+
+	for each inode (0 ~ total inodes)
+		if i not in csv
+			inode_state[i] = 0
+		if mode = 0 
+			inode_state[i] = 0
+		else
+			inode_state[i] = #links
+
+check_block(b):
+	if b < 0 or b > total_blks
+		return INVALID
+	else
+		return block_state[b]
+
+
+scan_inode
+	for each inode
+		if inode_state[i] == 0
+			continue
+		for each block pointer in this inode
+			if blk != 0
+				status = checkblock(byte)
+				if status == NONE
+					blk_status[ptr] = USED
+				else if status == USED
+					block_state[prt] = DUPLICATE
+				else if block_state[ptr] = FREE
+					error message
+				else
+					error message
+		// use a data structure to output every duplicate references
+
+		// unreferenced blocks
+			if not one of the three states
+				unreferenced block (freeblock says its used, but its unused)
+
+
+directory entries
+
+for each directory entry:
+	if d.inode > total inodes
+		error message
+	else id inode_state[d.inode] == 0:
+		error
+
+	else
+		link_count[d.inode]++   // each inode referenced by # directory entries
+		parent[d.inode] = ...
+
+'.' & '..'
+	...
+
+
+for each inode 0-tot
+	free = isfreeinode
+	state = inode_state[i]
+	links = link_count[i]
+	if free and status = 0
+		continue
+	if free and status != 0
+		error
+	if !free and !status and i >= reserved_inodes
+		error
+	else if status != link
+		error
+
+
+
+
+
+An inode is free if it appears in the inode bitmap as "free".
+An inode is allocated if it has a "non-zero mode and non-zero link count". (From Lab 3 spec; grep for For each allocated.)
+An inode is unallocated if it is not allocated.
+
+
+Test case:
+.. points to itself
+reserved block on freelist
+reserved inode on freelist
+referenced a block multiple times by a single file
+circular directory
+Block:
+	invalid: <0 or > totalblocks
+	reserved: valid and <first_data_block
+				first_data_block = first_inode+inodsize*inode#/blksize
+	unreferenced: valid and unreserved free=0 and alloc=0
+	allocated: valid and unreserved and free=1 and alloc=1
+	duplicate: valid and unreserved and used or duplicate
+
+Inode:
+	alloc: nonzero mode
+	free: freelist
+	alloc: alloc=1 and free=1
+	unalloc: alloc=1 and free=0
+
+Directory:
+	linkcount: allocated and linkcount[totalinodes]=refcount[totalinodes], initialized to 0
+	check allocation status and validity of each referneced inode
+		invalid: <1 or >totalinode
+		unallocated: alloc=0 and free=1
+	..: parent, the inode that has a reference to it
+	.:itself
+
+
+A xxx = B
+B.. = A
+B. = B
+A is parent of B, checkParent(B) = A, dirent[i][ref] = B, not B..z 
+
+
+
+
+
+

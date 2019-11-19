@@ -1,0 +1,28 @@
+NAME: Hermmy Wang
+ID: 704978214
+EMAIL: hermmyw@hotmail.com
+
+Files
+(1) lab4c_tcp.c
+	Read temperature data from the temperature sensor. 
+	Open a TCP connection given the port number and the host address.
+	Log the results and send them to the server.
+	Receive commands from the server instead of standard input.
+	
+(2) lab4c_tls.c
+	Read temperature data from the temperature sensor. 
+	Open a TLS connection given the port number and the host address.
+	Log the results and send them to the server.
+	Receive commands from the server instead of standard input.
+
+(3) Makefile
+	Build the two programs. Perform smoke-test on the two programs.
+
+(4) README
+
+
+Testing
+
+Limitation
+1. The user might provide an ID and a host address in order to use the program. The program does not start to read temperature data unless the user has provided correct information.
+2. Most testing is done with a dummy MRAA library.

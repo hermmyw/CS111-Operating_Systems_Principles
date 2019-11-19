@@ -1,0 +1,70 @@
+README
+
+NAME: Hermmy Wang
+UID: 704978214
+EMAIL: hermmyw@hotmail.com
+
+FILES:
+(1) simpsh.c
+	Built upon Lab 1A, simpsh.c implements the following options:
+	[--rdwr f]: open a file for reading and writing.
+
+	[--pipe]: create a pipe using pipe(2). Each pipe has a write end and a read
+	 end and opens two file descriptors.
+
+	[--wait]: wait for all processes to terminate. Exit with the highest exit 
+	code. Print the exit status of each child process along with its 
+	arguments. Wait only for the commands that appear before it. 
+
+	[--close N]: close the Nth file. Invalidate the file descriptor. Set the 
+	error when the following commands want to open a closed file or pipe. 
+
+	[--abort]: immediately dump core.
+
+	[--catch N]: catch signal N that follows it.
+
+	[--ignore N]: ignore signal N that follows it.
+
+	[--default N]: restore the default behavior of signal N.
+
+	[--pause]: wait for a signal.
+
+	...and the following flags used to achieve advanced functions of opening 
+	files:
+	[--append]: when writing, the offset is at the end of the file. 
+	[--cloexec]: close the file on execution. It is important in multithreaded 
+	programs to avoid race conditions.
+	[--creat]: create the file if it does not exist.
+	[--directory]: fail if pathname is not a directory.
+	[--dsync]: provide data integrity to write operations. Transfer data and 
+	metadata that would be required to retrieve that data to the hardware. 
+	[--excl]: fail open() if the file has already existed.
+	[--nofollow]: fail open() if the file is a symbolic link.
+	[--nonblock]: any operations on the file will not cause the caller to 
+	wait. This flag has no effect for regular files or block devices.
+	[--rsync]: 
+	[--sync]: provide file integrity on write operations. Transfer the output 
+	data and associated file metadata to the hardware.
+	[--trunc]: Truncate to 0 if the file already exists and has write permission.
+
+(2) Makefile
+	Makefile provides test cases for options
+	- rdwr
+	- pipe
+	- close
+	- wait
+	- catch
+	- default
+	- abort
+
+
+BUGS:
+(1) '--abort' is implemented by dereferencing a null pointer instead of 
+raise(SIGSEGV). I found that using raise() would cause '--verbose' to 
+behave incorrectly. The standard output could not be redirected to the 
+designated file.
+
+(2) O_RSYNC and O_SYNC have the same value. I only implemented '--sync' in 
+order to successfully compile. "Linux implements O_SYNC and O_DSYNC, but not 
+O_RSYNC.  (Somewhat incorrectly, glibc defines O_RSYNC to have the same value 
+as O_SYNC.)" 

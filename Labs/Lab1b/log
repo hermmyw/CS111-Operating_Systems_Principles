@@ -1,0 +1,42 @@
+
+
+* Read man pages of flags
+
+--dsync & --sync
+	sync: file integration: flush data
+	dsync: data integration: flush all data and limited metadata information (eg last modification)
+	not enough to guarantee not losing data, going to disk but not store in disk (dish has its own cache)
+
+raise()
+	generate segmentation fault
+	ignore + null point --> still segfault 
+	ignore + raise --> ignored
+
+sigaction()
+	read man page
+	sigset_t sa_mask: interrupt signal in sig handler
+
+wait() / waitpid()
+	macros
+	139 = 128 + 11
+	exit status = 128 + signal number
+
+access to file:
+	--rdonly a.txt --pipe ... wc ... cat ... cat
+	each process has access to a.txt and the two pipes
+
+	--rdonly a.txt --pipe cat1 cat2 wc --close2 --close4 --wait ls bash`exit 17` sleep 100
+		only wait for cat1 cat2 wc
+		exit 0
+
+	--rdonly a.txt --pipe cat1 cat2 wc --close2 --close4 --wait ls bash`exit 17` sleep 100 --wait
+		wait for all subcommands (all other are 0 except for bash, exit_status = 17)
+		exit 17
+
+	--rdonly a.txt --pipe cat1 cat2 wc --close2 --close4 --wait ls bash`exit 17` sleep 100(send a signal SIGSEGV) --wait
+		exit (11+128)
+
+
+	restore signal disposition
+		signal(11, Default);
+		raise(11);

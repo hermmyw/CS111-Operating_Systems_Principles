@@ -1,0 +1,87 @@
+single thread --poll
+	int poll(pollfd, nfds_t nfds, int timeout)
+
+	struct pollfd {
+		int fd;   // check stdin
+		short events; // POLLIN, waiting for data to be read
+		short reevents; // if it contains POLLIN, there is data to be read
+						// if returns others, error()
+	}
+
+	int timeout
+		-1: never print temperature
+		0: performance issue, not saving CPU time
+		positive: save CPU resource (<1s)
+
+
+	Advantage of using single thread:
+
+multiple thread --spinlock
+
+
+
+MRAA library
+
+
+if/else in Makefile
+
+
+
+
+#define DUMMY
+	mraa_init()
+	...
+#ifdep DUMMY
+
+
+gcc -DDUMMY
+
+
+// Demo code for Grove - Temperature Sensor V1.1/1.2
+// Loovee @ 2015-8-26
+
+#include <math.h>
+
+const int B = 4275;               // B value of the thermistor
+const int R0 = 100000;            // R0 = 100k
+const int pinTempSensor = A0;     // Grove - Temperature Sensor connect to A0
+
+void setup()
+{
+    Serial.begin(9600);
+}
+
+void loop()
+{
+    int a = analogRead(pinTempSensor);
+
+    float R = 1023.0/a-1.0;
+    R = R0*R;
+
+    float temperature = 1.0/(log(R/R0)/B+1/298.15)-273.15; // convert to temperature via datasheet
+
+    Serial.print("temperature = ");
+    Serial.println(temperature);
+
+    delay(100);
+}
+
+
+gettimeofday
+localtime to convert the time
+
+
+
+4C:
+https://www.tutorialspoint.com/unix_sockets/socket_server_example.htm
+socket
+	dont use bzero or bcopy
+	memset, memcpy
+
+network: big endian
+server: big endian: ABCD
+we usually use little endian: 
+
+0123
+DCBA->little endian
+ABCD->big endian

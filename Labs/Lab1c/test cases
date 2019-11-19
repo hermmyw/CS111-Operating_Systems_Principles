@@ -1,0 +1,175 @@
+test cases
+1. 
+// delete every x, y, and z from pg98.txt and sleep 1 second
+
+bash-4.4
+bash-4.4$ sleep 1 | cat pg98.txt | tr -d "xyz" >1bout.txt 2> 1berr.txt; times
+0m0.001s 0m0.011s
+0m0.020s 0m0.045s
+bash-4.4$ sleep 1 | cat pg98.txt | tr -d "xyz" >1bout.txt 2> 1berr.txt; times
+0m0.001s 0m0.012s
+0m0.022s 0m0.052s
+bash-4.4$ sleep 1 | cat pg98.txt | tr -d "xyz" >1bout.txt 2> 1berr.txt; times
+0m0.001s 0m0.013s
+0m0.027s 0m0.055s
+
+user: 0.00267
+cuser: 0.342
+sys: 0.013
+csys: 0.066
+
+
+dash
+$ sleep 1 | cat pg98.txt | tr -d "xyz" >1dout.txt 2> 1derr.txt; times
+0m0.000000s 0m0.000000s
+0m0.000000s 0m0.010000s
+$ sleep 1 | cat pg98.txt | tr -d "xyz" >1dout.txt 2> 1derr.txt; times
+0m0.000000s 0m0.000000s
+0m0.010000s 0m0.010000s
+$ sleep 1 | cat pg98.txt | tr -d "xyz" >1dout.txt 2> 1derr.txt; times
+0m0.000000s 0m0.000000s
+0m0.010000s 0m0.020000s
+
+
+
+./simpsh \
+--profile \
+--creat --rdwr io.txt \
+--rdonly pg98.txt \
+--creat --wronly 1sout.txt \
+--creat --wronly 1serr.txt \
+--pipe \
+--pipe \
+--command 0 0 0 sleep 1 \
+--command 1 7 3 cat \
+--command 6 2 3 tr -d "xyz" \
+--close 5 \
+--close 7 \
+--wait
+
+
+u: 	0 			0 			0.000697	0.000232
+uc: 0.001740	0.002665	0.002808	0.002404
+s: 	0			0.000649	0.000728	0.000459
+sc: 0.005484	0.004926	0.007557	0.003789
+
+
+2.
+// replace the string "we" with "shoes" in pg98.txt, then count lines
+
+bash-4.4$ cat pg98.txt | sed 's/we/shoes/g' | wc -l >2bout.txt 2> 2berr.txt; times 
+0m0.002s 0m0.004s
+0m0.012s 0m0.005s
+bash-4.4$ cat pg98.txt | sed 's/we/shoes/g' | wc -l >2bout.txt 2> 2berr.txt; times 
+0m0.002s 0m0.005s
+0m0.022s 0m0.012s
+bash-4.4$ cat pg98.txt | sed 's/we/shoes/g' | wc -l >2bout.txt 2> 2berr.txt; times 
+0m0.003s 0m0.006s
+0m0.032s 0m0.018s
+
+user: 0.002
+cuser: 0.327
+sys: 0.010
+csys: 0.049
+
+
+
+cat pg98.txt | sed 's/we/shoes/g' | wc -l >2dout.txt 2> 2derr.txt; times
+dash:
+0m0.000000s 0m0.000000s
+0m0.020000s 0m0.010000s
+
+0m0.000000s 0m0.000000s
+0m0.010000s 0m0.010000s
+
+0m0.000000s 0m0.000000s
+0m0.000000s 0m0.000000s
+
+
+
+
+
+
+simpsh:
+
+./simpsh \
+--profile \
+--rdonly pg98.txt \
+--pipe \
+--pipe \
+--creat --wronly 2sout.txt \
+--creat --wronly 2serr.txt  \
+--command 0 2 6 cat \
+--command 1 4 6 sed 's/we/shoes/g' \
+--command 3 5 6 wc -l \
+--close 2 \
+--close 4 \
+--wait
+
+user: 	0.000140	
+cuser: 	0.010813
+
+sys: 	0.000422
+csys: 	0.004256
+
+
+
+
+3.
+// replace a, b, c with x, y, z, sort pg98.txt, ignoring leading blanks and case, and count the number of the string "spy"
+
+bash-4.4$ tr "abc" "xyz" <pg98.txt | sort -bf | grep -ic "spy" >3bout.txt 2>3berr.txt; times
+0m0.002s 0m0.006s
+0m0.150s 0m0.017s
+bash-4.4$ tr "abc" "xyz" <pg98.txt | sort -bf | grep -ic "spy" >3bout.txt 2>3berr.txt; times
+0m0.002s 0m0.007s
+0m0.230s 0m0.022s
+bash-4.4$ tr "abc" "xyz" <pg98.txt | sort -bf | grep -ic "spy" >3bout.txt 2>3berr.txt; times
+0m0.002s 0m0.008s
+0m0.303s 0m0.031s
+
+user: 0.002s
+cuser: 0.228s
+sys: 0.006s
+csys: 0.021s
+
+
+$ tr "abc" "xyz" <pg98.txt | sort -bf | grep -ic "spy" >3dout.txt 2>3derr.txt; times
+0m0.000000s 0m0.000000s
+0m0.150000s 0m0.010000s
+$ tr "abc" "xyz" <pg98.txt | sort -bf | grep -ic "spy" >3dout.txt 2>3derr.txt; times
+0m0.000000s 0m0.000000s
+0m0.230000s 0m0.010000s
+$ tr "abc" "xyz" <pg98.txt | sort -bf | grep -ic "spy" >3dout.txt 2>3derr.txt; times
+0m0.000000s 0m0.000000s
+0m0.300000s 0m0.020000s
+
+user: 0
+cuser: 0.146666s
+sys: 0
+csys: 0.003333s
+
+
+./simpsh \
+--profile \
+--rdonly pg98.txt \
+--pipe \
+--pipe \
+--creat --wronly 3sout.txt \
+--creat --wronly 3serr.txt \
+--command 0 2 6 tr "abc" "xyz" \
+--command 1 4 6 sort -bf \
+--command 3 5 6 grep -ic "spy" \
+--close 2 \
+--close 4 \
+--wait
+
+user: 	0.000365
+cuser: 	0.147721	0.152021	0.155851	0.151864
+sys: 	0.000295
+csys: 	0.12949		0.006762	0.012876	0.010862
+
+
+
+
+

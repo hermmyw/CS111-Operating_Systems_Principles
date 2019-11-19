@@ -1,0 +1,36 @@
+NAME: Hermmy Wang
+ID: 704978214
+EMAIL: hermmyw@hotmail.com
+
+S/N: BBGW16062786
+MAC: 2CF7F1065444
+
+Files description:
+(1) my_beaglebone.jpg
+	Selfie of myself holding the Beaglebone
+
+(2) connected.png
+	Enable wifi access and change host name.
+	Follow the instruction to allow wifi access.
+	Change host name:
+	$ vim /etc/hostname
+		Change beaglebone to 704978214.lasr.cs.ucla.edu
+	$ vim /etc/hosts
+		Change two references of beaglebone to 704978214.lasr.cs.ucla.edu
+	$ /etc/init.d/hostname.sh start
+	$ ifconfig
+
+(3) copy.png
+	Copy helloworld.c to transfer file to beaglebone when logging in over wifi via ssh.
+	$ scp helloworld.c root@192.168.0.22:~
+
+(4) build_run.png
+	Log in to root, compile and run the trivial program
+
+(5) git.png
+	Use apt-get to download git package and clone a git directory from one of my git repositories.
+	$ apt-get install git
+	$ git clone ...
+
+(6) Makefile
+	Compressing these files into a tar.

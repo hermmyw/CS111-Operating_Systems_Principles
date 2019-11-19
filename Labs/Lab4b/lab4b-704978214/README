@@ -1,0 +1,23 @@
+NAME: Hermmy Wang
+ID: 704978214
+EMAIL: hermmyw@hotmail.com
+
+Files:
+(1) lab4b.c
+	Implement a program that reads data from the temperature sensor and log the results. The program also supports reading from either a pipe or standard input on the terminal.
+
+(2) Makefile
+	Build the program and perform smoke-test.
+
+(3) Readme
+
+Testing:
+1. a START when you are already started is a no-op.
+2. a STOP when you are already stopped is a no-op.
+3. Program exits with invalid command/argument
+4. Invalid arguments
+
+Limitation:
+1. Assume that the sensors are connected as recommended by the Grove documentation.
+2. LOG in the terminal input will not have an effect unless a log file is specified.
+3. If an invalid command is received, it will still be logged to the log file before the program exits.

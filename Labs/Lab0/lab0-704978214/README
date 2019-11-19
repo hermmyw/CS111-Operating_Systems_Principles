@@ -1,0 +1,36 @@
+NAME: Hermmy Wang
+EMAIL: hermmyw@hotmail.com
+ID: 704978214
+
+Included files: 
+	lab0.c
+	Makefile
+	backtrace.png
+	breakpoint.png
+	README
+
+Smoke-test cases:
+(1) Check if the output file copies the input file exactly...
+	(a) in different forms of stdin and stdout
+	(b) using different contents of the input file
+	(c) using multiple inputs and outputs
+	(d) using the same file as the input and the output
+(2) Check syntax error when...
+	(a) a required option argument is not specified
+	(b) providing a nonoption
+	(c) a syntax error coexists with another error
+(3) Check input error using...
+	(a) a nonexistent file
+	(b) a nonexistent file and a valid file
+	(c) an unreadable file
+(4) Check output error using...
+	(a) an unwrittable file
+(5) Check segmentation fault, catch, and dump-core by arranging these arguments
+ in different orders
+
+
+Limitation:
+(1) The program does not distinguish between the full spelling of an option and
+ a partial spelling of an option. E.g. '--in' will work just as '--input'.
+(2) The program will first check syntax errors. If a syntax error is present 
+along with other types of errors, the program will exit from the syntax error.

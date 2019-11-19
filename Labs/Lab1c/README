@@ -1,0 +1,23 @@
+README
+
+NAME: Hermmy Wang
+UID: 704978214
+EMAIL: hermmyw@hotmail.com
+
+FILES and TESTING:
+(1) simpsh.c
+	Built upon Lab 1b, simpsh.c adds '--profile' option, which outputs user 
+	time and system of every option and of child processes that have been 
+	terminated or successfully waited for. 
+
+(2) Makefile
+	Makefile consists of several test cases. 'make check' was written based on 
+	lab1b's makefile. Every command is added '--profile' to manually check 
+	if the output file contains the correct time information. 
+
+(3) report.pdf
+	The file presents the comparison among Bash, Dash, and simpsh. There are 
+	3 benchmarks provided, and each shell runs each benchmark three times. 
+	The result is obtained by averaging the three trials. In the report, I 
+	have shown Simpsh is the fastest shell, Dash the second, and Bash the 
+	slowest.

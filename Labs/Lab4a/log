@@ -1,0 +1,67 @@
+log
+
+1. Plug in Beaglebone to my Mac via USB
+2. Open START.htm. The left column shows step 1 and step 2 are done.
+3. Browse 192.168.7.2 via Chrome.
+	http://192.168.7.2/bone101/Support/bone101/
+4. Click "Run"
+
+
+1. Add 'Secure Shell' to Chrome
+2. type ssh root@192.168.7.2
+
+	Welcome to Secure Shell App version 0.15.
+	Answers to Frequently Asked Questions: https://goo.gl/muppJj (ctrl+click on links to open)
+	ChangeLog/release notes: https://goo.gl/YnmXOs
+	Major changes since 0.9:
+	 ¤ OpenSSH upgraded to 7.9p1.
+	 ¤ Compression no longer enabled by default (ssh -C).
+	 ¤ SFTP transfer sizes increased to 64k/255k with OpenSSH servers.
+
+	Random Pro Tip #5: Connect using ssh:// links in web pages, or save a bookmark: https://goo.gl/zS8EZD
+
+	Loading NaCl plugin... done.
+	Connecting to root@192.168.7.2...
+	The authenticity of host '192.168.7.2 (192.168.7.2)' can't be established.
+	ECDSA key fingerprint is SHA256:vVNuyu7WOuDMZDrSDQzu3ANvXG+eZj/gbRVapAgOkUM.
+	Are you sure you want to continue connecting (yes/no)? 
+
+	yes
+
+3. root password is denied.
+4. ssh debian@192.168.7.2
+5. su - root, enter password
+6. 
+root@beaglebone:/# vim /etc/ssh/sshd_config
+	Change PermitRootLogin to yes
+root@beaglebone:/# /etc/init.d/ssh restart
+[ ok ] Restarting ssh (via systemctl): ssh.service.
+7. ssh root@192.168.7.2
+8. Success
+
+
+
+
+====================================LAB4===================================
+1. Change hostname
+root@beaglebone:/# hostname
+beaglebone
+root@beaglebone:/# vim /etc/hostname
+	Change beaglebone to 704978214.lasr.cs.ucla.edu
+root@beaglebone:/# vim /etc/hosts
+	Change two references of beaglebone to 704978214.lasr.cs.ucla.edu
+root@beaglebone:/# /etc/init.d/hostname.sh start
+root@beaglebone:/# sudo -s 
+root@704978214:/# ifconfig
+...
+take screenshot
+
+2. Hello world
+
+#include <stdio>
+int main() {
+	printf("Hello World\n");
+	return 0;
+}
+
+3. 

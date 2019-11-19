@@ -1,0 +1,57 @@
+README
+
+NAME: Hermmy Wang
+ID: 704978214
+EMAIL: hermmyw@hotmail.com
+
+File included:
+(1) lab3b.py
+	Source file that analyzes a file system summary (*.csv) and report all inconsistencies:
+	Block:
+		invalid: <0 or > totalblocks
+		reserved: valid and <first_data_block
+					first_data_block = first_inode+inodsize*inode#/blksize
+		unreferenced: valid and unreserved free=0 and alloc=0
+		allocated: valid and unreserved and free=1 and alloc=1
+		duplicate: valid and unreserved and used or duplicate
+
+	Inode:
+		allocated: nonzero linkcount and nonzero mode
+		freed: on freelist
+		alloc: alloc=1 and free=1
+		unalloc: alloc=1 and free=0
+
+	Directory:
+		linkcount: allocated and linkcount[totalinodes]=refcount[totalinodes], initialized to 0
+		check allocation status and validity of each referneced inode
+			invalid: <1 or >totalinode
+			unallocated: alloc=0 and free=1
+		..: parent, the inode that has a reference to it
+		.: itself
+	Exit 2 when inconsistencies are found
+
+(2) Makefile
+	Compile source code and perform tests
+
+(3) mycsv.csv
+	Testing file
+
+(4) Readme
+
+
+
+Test case:
+(1) .. points to itself
+(2) reserved block on freelist
+(3) reserved inode on freelist
+(4) referenced a block multiple times by a single file
+(5) circular directory
+
+
+
+Limitation:
+(1) Only work for a single block group
+(2) Assume SUPERBLOCK and GROUP are read first
+(3) does not check when . or .. doesn't exist
+(4) Ignore negative inode number or inode > total inode in inode allocation audit
+(5) All reserved are treated as allocated

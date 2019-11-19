@@ -1,0 +1,67 @@
+clock_gettime
+
+int clock_gettime(clockid_t clk_id, struct timespec *tp)
+	real time: clock time
+	CLOCK_MONOTONIC: ignore mannual reset of system time
+	CLOCK_BOOTIME:
+	CLOCK_THREAD_CPUTIME_ID
+	CLOCK_PROCESS_CPUTIME_ID
+
+	struct timespec {
+		time_t tv_sec //seconds
+		long tv_nsec  //nanoseconds
+	};
+
+
+Thread-level Parallelism
+	Three levels of parallelism:
+		Instruction level: forking
+		Thread level: 
+			less memory usage
+			already shared data
+			no latency for communication
+
+			Drawback: thread-safety
+				race condition when two threads trying to access the shared data
+
+
+
+Problem with parallelization
+1. Synchronization
+	Update/Write
+
+
+Yield
+	Linux use RR to SJF
+	Might switch to next process
+	Critical section:
+
+Pthread mutex
+	critical section secured by:
+		static lock: pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+		write locks are destroyed at the end
+		read locks set a counter. set to 0 at the end.
+
+		int pthread_mutex_lock(pthread_mutex_t *mutex); //block if another thread is holding the clock, wait until the other thread releases
+
+		int pthread_mutex_trylock(pthread_mutex_t *mutex); // non-blocking version of LOCK, does not wait
+
+		int pthread_mutex_unlock(pthread_mutex_t *mutex); //useful if a thread has the lock. error if already unlocked or not owned by the calling thread
+
+		pthread_mutex_destroy(&mutex); //avoid memory leak
+	
+
+Spin lock
+	Busy waiting if the lock is unlocked
+	Polling
+	Fetch and add
+	
+
+
+
+
+
+
+
+
+

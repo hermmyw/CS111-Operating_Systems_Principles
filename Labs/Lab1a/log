@@ -1,0 +1,136 @@
+Lab:
+
+less than 3 fd --command
+
+printf("...");
+==> fprintf(stdout, "...");
+1. stays in the buffer until \n
+2. buffer is full
+
+
+_exit(2); 
+==> a system call, will not flush buffer 
+
+--pipe: a buffer maintained by kernel, default size 64kb
+pipe buffer 4kb
+	`ls | wc` will only see the output of wc
+	man 2 pipe
+	man 7 pipe
+
+	reading from a pipe:
+	if pipe is empty, read() will block
+
+	writing to a pipe:
+	if pipe is full, write() will block
+	if write < 4k, atomic
+
+	==>NONBLOCK flag
+
+
+fork()
+if fork() returns 0, child process
+	printf a;	1
+	++a;	
+	printf a;	2
+if fork( returns >0, parent process)
+	print a;	1
+	a--;	
+	print a;	0
+
+
+while(1) {
+	fork();
+}
+==>create child processes exponentially, saturating process table
+
+execvp(const char* file, char *const argv[])
+	
+	cat a.txt
+	argv[]: {"cat", "a.txt", NULL}
+	file: "cat"
+
+
+execv(const char* path...)  need to provide path 
+execvpe(const char* path...) need to provide path and environment
+
+
+High
+	stack (growing from high to low)
+	heap (growing from low to high)
+	uninitialized data
+	data
+	text
+Low
+
+
+
+signal_handler()
+	//can't use it after segfault
+	int a = 100;
+	exec... ->a is gone
+	fd table will remain, maintained by kernel, not by memory
+
+fork()
+	child has its own fd table, same as the parent, using the same offset
+		abcde
+		pcp
+
+parent process creates the pipe, but does not use it. The child will use the pipe.
+
+	pipe(fd);
+	pipe(fd);
+	fork();
+	if (pid == 0)
+	else
+
+child_process():
+	while loop reading pipes...
+		if read() == 0 -> EOF
+		no more write to the pipe
+	call execvp on bash
+
+	multiple files open in fd table, read() will not return 0
+	we need close() the files we do not use.
+
+	IO redirection
+
+parent_process():
+	dont close fd in parent_process
+
+index	fd_table 	file_table
+0			3			a.txt
+
+
+
+
+
+./simpsh --rdonly a.txt --command 0 1 2 sleep --command 3 4 5 cat --command 6 7 8 ls -l --pipe
+
+at least 4 strings after command
+at least 3 numbers after command
+3 numbers are valid file descriptors
+
+
+
+
+
+./simpsh --rdonly a --rdonly a --wronly b --wronly c --command 0 2 3 time -p sleep 2 --wronly d --wronly e --wronly f --wronly g --command 0 4 5 cat --command 1 6 7 cat a0.txt - 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

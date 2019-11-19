@@ -1,0 +1,28 @@
+NAME: Hermmy Wang
+ID: 704978214
+EMAIL: hermmyw@hotmail.com
+
+Files:
+(1) lab4c_tcp.c
+	Implement a program that reads data from the temperature sensor and log the results. 
+	Open a TCP connection and send reports to the server.
+	The program also takes input from the server instead of standard input.
+
+(2) lab4c_tls.c
+	Implement a program that reads data from the temperature sensor and log the results. 
+	Open a TLS connection and send reports to the server.
+	The program also takes input from the server instead of standard input.
+
+(2) Makefile
+	Build the program and perform smoke-test.
+
+(3) Readme
+
+Testing:
+1. Program exits with invalid command/argument
+2. Invalid arguments
+
+Limitation:
+1. Assume that the sensors are connected as recommended by the Grove documentation.
+2. Must have a host and an ID specified before starting to read temperature data.
+3. If an invalid command is received, it will still be logged to the log file before the program exits.
